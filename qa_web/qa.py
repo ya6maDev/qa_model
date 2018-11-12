@@ -11,6 +11,12 @@ import common.qa_utils as utils
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
+
+@app.route('/')
+def index():
+    return 'Hello World!'
+
+
 """
 リクエストで受け取った質問に対する回答をjson形式で返す
 """
