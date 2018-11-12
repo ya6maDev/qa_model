@@ -8,3 +8,4 @@ matplotlib
 gensim
 ipykernel
 mecab-python-windows
+gunicorn
