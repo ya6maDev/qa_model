@@ -1,13 +1,12 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-#
-
 # 必要なライブラリをインポート
-from flask import Flask, jsonify
+import os
+
+from flask import Flask
+from flask import jsonify
 from keras.backend import clear_session
 
-import mote_qa_utils as utils
-import predict
+from common.seq2seq import Seq2seq
+import common.qa_utils as utils
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -17,31 +16,34 @@ app.config['JSON_AS_ASCII'] = False
 """
 
 
-@app.route('/qa/api/v1.0/answer/<question>', methods=['GET'])
-def get_answer(question=None):
-
+@app.route('/qa/reply/<question>', methods=['GET'])
+def reply(question=None):
     # セッションをクリアする
     clear_session()
 
+    # インスタンスを生成する。
+    qa = Seq2seq()
+
+    # ルートパスを取得する
+    root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
     # 訓練用のQAテキストファイルから、QAデータを取得する
-    _, target_texts = utils.get_file_data()
+    data_path = root_path + '/train_data/qa.txt'
+    _, target_texts = utils.get_file_data(data_path)
 
     input_texts = [question]
 
-    # エンコーダーモデル、デコーダーモデルを生成する。
-    encoder_model, decoder_model = predict.create_model(
-        input_texts, target_texts)
+    # モデルを作成する
+    model, encoder_model, decoder_model = qa.create_model(input_texts, target_texts)
 
-    # エンコーダーモデルに入力するデータを取得する
-    encoder_input_data = predict.get_encoder_input_data(
-        input_texts, target_texts)
+    # モデルを読み込む
+    model_path = root_path + '/model/s2s_qa_epoch_100.h5'
+    model = qa.load_model(model_path)
 
-    # 予測結果を取得する
-    decoded_sentence = predict.decode_sequence(
-        encoder_input_data[0: 1], target_texts, encoder_model, decoder_model)
+    reply = qa.predict(1, encoder_model, decoder_model, input_texts)
 
     # json形式で質問と回答を返す
-    return jsonify({'question': question, 'answer': decoded_sentence})
+    return jsonify({'question': question, 'answer': reply})
 
 
 if __name__ == '__main__':

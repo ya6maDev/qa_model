@@ -1,5 +1,5 @@
-/model
-train_data
-__pycache__
 /log
-.vscode
+/train_data
+/model
+.idea
+__pycache__
