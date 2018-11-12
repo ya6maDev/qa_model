@@ -1,1 +1,1 @@
-python -m flask run
+web: gunicorn qa:app --log-file=-
