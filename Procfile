@@ -1,1 +1,1 @@
-web: gunicorn qa:app --log-file=-
+web: gunicorn ./qa_web/qa:app --log-file=-
