@@ -10,14 +10,14 @@ def main():
     random_state = 42
 
     # ルートパスを取得する
-    root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    root_path = utils.get_root_path()
 
     np.random.seed(random_state)
 
     qa = Seq2seq()
 
     # 訓練用のQAテキストファイルから、QAデータを取得する
-    data_path = root_path + '/train_data/qa.txt'
+    data_path = os.path.join(root_path, 'train_data/qa.txt')
     input_texts, target_texts = utils.get_file_data(data_path)
 
     # モデルを作成する

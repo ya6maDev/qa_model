@@ -31,10 +31,10 @@ def reply(question=None):
     qa = Seq2seq()
 
     # ルートパスを取得する
-    root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    root_path = utils.get_root_path()
 
     # 訓練用のQAテキストファイルから、QAデータを取得する
-    data_path = root_path + '/train_data/qa.txt'
+    data_path = os.path.join(root_path, 'train_data/qa.txt')
     _, target_texts = utils.get_file_data(data_path)
 
     input_texts = [question]

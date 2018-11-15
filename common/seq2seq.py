@@ -20,11 +20,11 @@ class Seq2seq:
     def __init__(self):
 
         # ルートパスを取得する
-        root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        root_path = utils.get_root_path()
 
         self.model = None
-        self.log_path = root_path + '/log'
-        self.model_path = root_path + '/model'
+        self.log_path = os.path.join(root_path, 'log')
+        self.model_path = os.path.join(root_path, 'model')
 
         self.hidden_units = 256
         self.batch_size = 128

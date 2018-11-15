@@ -23,6 +23,13 @@ MAX_WORDS = 40
 # 区切り文字
 SEPALETER = '\t'
 
+
+def get_root_path():
+    root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return root_path
+
+
+
 """
 ファイルに記載されているQAデータを質問と回答を分解して返す関数
 @return input_texts, target_texts
