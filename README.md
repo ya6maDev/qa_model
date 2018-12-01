@@ -5,6 +5,6 @@ QAモデル
 
 ~~~
 cd project_directory  
-set FLASK_APP=./qa_web/qa.py  
+set FLASK_APP=./qa.py  
 python -m flask run
 ~~~
