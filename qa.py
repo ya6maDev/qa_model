@@ -3,12 +3,14 @@ import os
 
 from flask import Flask
 from flask import jsonify
+from flask_cors import CORS
 from keras.backend import clear_session
 
 from common.seq2seq import Seq2seq
 import common.qa_utils as utils
 
 app = Flask(__name__)
+CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
 
